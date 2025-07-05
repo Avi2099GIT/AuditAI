@@ -1,23 +1,23 @@
 from app.database.firestore_client import save_scan_results
+from app.utils.git_utils import get_latest_commit_hash
 
-# Mock scan result
 mock_results = [
     {
-        "file": "app/main.py",
-        "issue": "Hardcoded secret found",
-        "severity": "HIGH",
-        "line": 42,
-        "description": "This line contains a hardcoded secret which should be moved to environment variables."
-    },
-    {
-        "file": "app/utils/crypto.py",
-        "issue": "Insecure hash function",
-        "severity": "MEDIUM",
-        "line": 12,
-        "description": "MD5 is not recommended for cryptographic purposes. Use SHA-256 or stronger."
+        "file_path": "app/example.py",
+        "issue_type": "Hardcoded secret",
+        "description": "Hardcoded API key found.",
+        "severity": "High",
+        "line_number": 42,
+        "source": "bandit"
     }
 ]
 
-# Save to Firestore
-save_scan_results(mock_results)
+commit_hash = get_latest_commit_hash()
+
+save_scan_results(
+    mock_results,
+    project_name="AuditAI Secure",
+    commit_hash=commit_hash
+)
+
 print("✅ Mock scan results successfully saved to Firestore.")
