@@ -34,8 +34,12 @@ jobs:
         run: |
           PYTHONPATH=. python scripts/run_analysis.py app/ > result.json
 
+      - name: 🧪 Print result.json
+        run: cat result.json
+
       - name: Post analysis result to PR
         if: always()
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: result.json
+
