@@ -1,8 +1,10 @@
-name: PR Audit with AI Security Scan
-
 on:
   pull_request:
     branches: [main, dev]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write  # 👈 This is required for PR comment posting
 
 jobs:
   audit:
