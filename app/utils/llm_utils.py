@@ -2,24 +2,22 @@
 
 import os
 import json
-from openai import OpenAI
+from together import Together
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
 def analyze_code_with_llm(prompt):
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",  # or your preferred Together AI model
+            model="mistralai/Mixtral-8x7B-Instruct-v0.1",
             messages=[
-                {"role": "system", "content": "You are a Python security auditor."},
+                {"role": "system", "content": "You are a Python security auditor. Reply in JSON."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.2,
+            temperature=0.3,
         )
 
         content = response.choices[0].message.content
-
-        # Assume LLM replies with JSON-like list of issues
         issues = json.loads(content)
         return issues if isinstance(issues, list) else []
 
