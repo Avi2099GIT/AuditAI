@@ -1,0 +1,8 @@
+[tool.poetry]
+name = "auditai-secure"
+version = "0.1.0"
+description = "AI Code Auditing & Security Scanner"
+authors = ["Avinash"]
+
+[tool.poetry.dependencies]
+python = "^3.13"

@@ -1,0 +1,9 @@
+fastapi
+typer[all]
+google-cloud-firestore
+together
+openai
+pydantic
+bandit
+uvicorn
+python-dotenv
