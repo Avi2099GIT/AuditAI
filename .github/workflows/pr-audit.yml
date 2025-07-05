@@ -29,6 +29,5 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcp-key.json" >> $GITHUB_ENV
 
       - name: Run AuditAI Analysis
-        run: |
-          python -m app.core.run_analysis app/ > result.json
-          cat result.json
+        run: PYTHONPATH=. python -m app.core.run_analysis app/ > result.json
+
