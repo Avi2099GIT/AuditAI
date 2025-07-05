@@ -1,20 +1,23 @@
-import subprocess
-import json
+# app/scanner/bandit_runner.py
 
-def run_bandit_on_files(file_paths):
-    results = []
-    for file in file_paths:
-        try:
-            output = subprocess.check_output(
-                ["bandit", "-f", "json", "-q", file],
-                stderr=subprocess.DEVNULL,
-                text=True
-            )
-            data = json.loads(output)
-            results.append({
-                "file": file,
-                "issues": data.get("results", [])
-            })
-        except subprocess.CalledProcessError:
-            continue  # Skip problematic files
-    return results
+import json
+import tempfile
+import subprocess
+
+def run_bandit_scan(target_path):
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as temp_file:
+            command = [
+                "bandit", "-r", target_path,
+                "-f", "json", "-o", temp_file.name
+            ]
+            subprocess.run(command, check=True)
+            temp_file_path = temp_file.name
+
+        with open(temp_file_path, "r") as f:
+            report = json.load(f)
+
+        return report.get("results", [])
+    except Exception as e:
+        print(f"❌ Bandit scan failed: {e}")
+        return []
