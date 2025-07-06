@@ -1,11 +1,9 @@
 # app/scanner/llm_checker.py
 import logging
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-
-import os
 from app.utils.code_utils import extract_code_blocks
 from app.utils.llm_utils import analyze_code_with_llm
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 def run_llm_checks(file_paths):
     results = []
@@ -25,15 +23,15 @@ def run_llm_checks(file_paths):
 
                 for issue in issues:
                     results.append({
-                        "file_path": file_path,
-                        "issue_type": issue.get("issue_type", "Unknown"),
-                        "description": issue.get("description", "No description provided"),
-                        "severity": issue.get("severity", "Medium"),
-                        "line_number": block["line_number"],
-                        "source": "llm"
+                        "file": file_path,
+                        "line": issue.get("line_number", block.get("line_number", -1)),
+                        "type": "LLM",
+                        "severity": issue.get("severity", "MEDIUM").upper(),
+                        "confidence": issue.get("confidence", "MEDIUM").upper(),
+                        "description": issue.get("description", "No description provided")
                     })
 
         except Exception as e:
-            print(f"❌ LLM check failed for {file_path}: {e}")
+            logging.error(f"❌ LLM check failed for {file_path}: {e}")
 
     return results
