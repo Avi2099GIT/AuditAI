@@ -1,4 +1,7 @@
 # app/scanner/bandit_runner.py
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 import json
 import tempfile
@@ -19,5 +22,5 @@ def run_bandit_scan(target_path):
 
         return report.get("results", [])
     except Exception as e:
-        print(f"❌ Bandit scan failed: {e}")
+        logging.error(f"❌ Bandit scan failed: {e}")
         return []

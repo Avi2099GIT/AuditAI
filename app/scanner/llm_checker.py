@@ -1,4 +1,7 @@
 # app/scanner/llm_checker.py
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 import os
 from app.utils.code_utils import extract_code_blocks
